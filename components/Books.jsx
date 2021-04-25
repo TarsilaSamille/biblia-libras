@@ -91,14 +91,21 @@ const Books = () => {
           )}
           onChange={(e) => setChapter(e.target.value)}
         />
+                    
       </div>
       <VLibras/>
+
+      <div key={chapter + book.abbrev + version}>
       {chapterText &&
         chapterText.verses.map((v) => (
           <Paragraph>
             <b> {v.number} </b> {v.text}
           </Paragraph>
-        ))}
+        ))} 
+
+
+       </div>
+
     </>
   );
 };
