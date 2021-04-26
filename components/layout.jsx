@@ -11,8 +11,8 @@ export default function Layout({ children, home }) {
   return (
     <div className={styles.container}>
       <Head>
-        <link rel="icon" href="/bibliaIco.ico" />
-        <meta
+        <link rel="icon" href="/biblia.ico" />
+<meta
           name="description"
           content="Bíblia em LIBRAS"
         />
@@ -31,10 +31,9 @@ export default function Layout({ children, home }) {
           <>
             <Image
               priority
-              src="/imagens/biblia.png"
-              className={utilStyles.borderCircle}
-              height={80}
-              width={80}
+              src="/imagens/book.svg"
+              height={100}
+              width={100}
               alt={name}
             />
             <h1 className={utilStyles.heading2Xl}>{name}</h1>

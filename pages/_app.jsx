@@ -5,16 +5,16 @@
 // export default function MyApp({Component, pageProps}) {
 //   return (
 //       <>
-//         <nav>
-//           <ul>
-//             <li><Link href="/"><a>{content.index.title}</a></Link></li>
-//             {content.pages.map(page =>
-//                 <li key={page.path}>
-//                   <Link href="[...pages]" as={page.path}><a>{page.title}</a></Link>
-//                 </li>,
-//             )}
-//           </ul>
-//         </nav>
+        // <nav>
+        //   <ul>
+        //     <li><Link href="/"><a>{content.index.title}</a></Link></li>
+        //     {content.pages.map(page =>
+        //         <li key={page.path}>
+        //           <Link href="[...pages]" as={page.path}><a>{page.title}</a></Link>
+        //         </li>,
+        //     )}
+        //   </ul>
+        // </nav>
 //         <main>
 //           <Component {...pageProps} />
 //         </main>
@@ -23,8 +23,7 @@
 // }
 
 import '../styles/global.css'
-import { ThemeProvider } from 'fannypack';
-
+import 'antd/dist/antd.css';
 export default function App({ Component, pageProps }) {
-    return  <ThemeProvider> <Component {...pageProps} /> </ThemeProvider>
+    return  <Component {...pageProps} /> 
   }

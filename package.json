@@ -10,11 +10,11 @@
     "dependencies": {
         "@djpfs/react-vlibras": "^1.0.5",
         "@djpfs/react-vlibras-typescript": "^1.0.1",
+        "antd": "^4.15.3",
         "axios": "^0.21.1",
         "classname": "0.0.0",
         "csvtojson": "^2.0.10",
         "date-fns": "^2.21.1",
-        "fannypack": "^4.21.38",
         "google-spreadsheet": "^3.1.15",
         "googleapis": "^39.2.0",
         "gray-matter": "^4.0.2",
