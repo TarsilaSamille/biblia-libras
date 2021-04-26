@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import ServicoBiblia from "../api/ServicoBiblia";
+import Sheet from "../api/Sheet";
 import { Label, SelectField, Paragraph, FieldSet } from "fannypack";
 import bibleStyles from "../styles/biblia.module.css";
-import VLibras from '@djpfs/react-vlibras-typescript'
+import VLibras from "@djpfs/react-vlibras-typescript";
+import ReactPlayer from "react-player";
 
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [versions, setVersions] = useState([]);
   const [chapter, setChapter] = useState(1);
   const [version, setVersion] = useState("acf");
+  const [dados, setDados] = useState([]);
+  const [versosVideo, setVersosVideo] = useState("");
+
   const [book, setBook] = useState({
     abbrev: { pt: "gn" },
     author: "",
@@ -20,6 +25,7 @@ const Books = () => {
   const [chapterText, setChapterText] = useState();
 
   const servicoBiblia = new ServicoBiblia();
+  const servicoDados = new Sheet();
 
   const getOptions = (object, label, value) => {
     return object.map((obj) => {
@@ -34,6 +40,7 @@ const Books = () => {
       return rObj;
     });
   };
+
   const getBooksOptions = (object) => {
     return object.map((obj) => {
       let rObj = { label: " ", value: "" };
@@ -47,9 +54,10 @@ const Books = () => {
     (async () => {
       setBooks((await servicoBiblia.getBooks()) || []);
       setVersions((await servicoBiblia.getVersions()) || []);
+      setDados((await servicoDados.getDados()) || []);
     })();
   }, []);
-
+  // book, chapter_verses, chapter, verses, playlistId, videoId
   useEffect(() => {
     (async () => {
       version &&
@@ -66,7 +74,7 @@ const Books = () => {
   }, [version, book, chapter]);
   return (
     <>
-      <div className={bibleStyles.selectors}>  
+      <div className={bibleStyles.selectors}>
         <SelectField
           label="Versão"
           options={getOptions(versions, "version", "version")}
@@ -79,6 +87,7 @@ const Books = () => {
             setBook(books.filter((b) => b.abbrev.pt == e.target.value)[0])
           }
         />
+
         <SelectField
           label="Capítulo"
           defaultValue="1"
@@ -91,21 +100,40 @@ const Books = () => {
           )}
           onChange={(e) => setChapter(e.target.value)}
         />
-                    
+
+        <SelectField
+          label="Versos"
+          defaultValue="1"
+          options={getOptions(
+            dados.filter(
+              (v) => v.book == book.abbrev.pt && v.chapter == chapter
+            ),
+            "text",
+            "videoId"
+          )}
+          onChange={(e) => setVersosVideo(e.target.value)}
+        />
       </div>
-      <VLibras/>
+      <div>
+        <div className={bibleStyles.selectors}>
+          {versosVideo && (
+            <ReactPlayer
+              url={"https://www.youtube.com/watch?v=" + versosVideo}
+              controls={true}
+            />
+          )}
+        </div>
 
-      <div key={chapter + book.abbrev + version}>
-      {chapterText &&
-        chapterText.verses.map((v) => (
-          <Paragraph>
-            <b> {v.number} </b> {v.text}
-          </Paragraph>
-        ))} 
-
-
-       </div>
-
+        <div key={chapter + book.abbrev + version}>
+          {chapterText &&
+            chapterText.verses.map((v) => (
+              <Paragraph>
+                <b> {v.number} </b> {v.text}
+              </Paragraph>
+            ))}
+        </div>
+      </div>
+      <VLibras />
     </>
   );
 };

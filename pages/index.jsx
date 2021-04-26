@@ -5,6 +5,7 @@ import utilStyles from '../styles/utils.module.css'
 import content from '../data/hb.content.json';
 import Link from 'next/link';
 
+
 export default function Home() {
   return (
     <Layout home>
