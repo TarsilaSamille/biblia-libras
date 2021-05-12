@@ -24,3 +24,23 @@ img {
     max-width: 100%;
     display: block;
 }
+
+.ant-row-center {
+    justify-content: flex-start !important;
+}
+
+.ant-row {
+    row-gap: 0px;
+}
+
+.sticky {
+    position: fixed;
+    top: 40vh;
+    width: 100%
+}
+
+.bottom-fixed {
+    position: fixed;
+    bottom: 0;
+    width: 100%
+}

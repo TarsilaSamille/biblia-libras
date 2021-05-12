@@ -24,6 +24,7 @@
 
 import '../styles/global.css'
 import 'antd/dist/antd.css';
+import '../styles/main.a3f694c0.css'
 export default function App({ Component, pageProps }) {
     return  <Component {...pageProps} /> 
   }

@@ -3,11 +3,15 @@ import Image from 'next/image'
 import styles from '../styles/layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
+import Header from './header'
+import Footer from './footer'
 
 const name = 'Bíblia em LIBRAS'
 export const siteTitle = 'Biblia em LIBRAS'
 
+
 export default function Layout({ children, home }) {
+
   return (
     <div className={styles.container}>
       <Head>
@@ -25,49 +29,28 @@ export default function Layout({ children, home }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
         
+
+        <meta charset="UTF-8"/>
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="width=device-width,initial-scale=1" name="viewport"/>
+        <meta content="description" name="description"/>
+        <meta content="Mashup templates have been developped by Orson.io team" name="author"/>
+          <meta name="msapplication-tap-highlight" content="no"/>
+
+
+
+
+
+
+
+
+        
       </Head>
-      <header className={styles.header}>
-        {home ? (
-          <>
-            <Image
-              priority
-              src="/imagens/book.svg"
-              height={100}
-              width={100}
-              alt={name}
-            />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
-          </>
-        ) : (
-          <>
-            <Link href="/">
-              <a>
-                <Image
-                  priority
-                  src="/images/profile.jpg"
-                  className={utilStyles.borderCircle}
-                  height={108}
-                  width={108}
-                  alt={name}
-                />
-              </a>
-            </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
-              </Link>
-            </h2>
-          </>
-        )}
-      </header>
+
+      
+     <Header/>
       <main>{children}</main>
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
+    <Footer/>
     </div>
   )
 }
