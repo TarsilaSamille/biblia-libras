@@ -30,7 +30,7 @@ img {
 }
 
 .ant-row {
-    row-gap: 0px;
+    row-gap: 0px !important;
 }
 
 .sticky {

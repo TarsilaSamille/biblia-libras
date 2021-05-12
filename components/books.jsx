@@ -27,7 +27,7 @@ const Books = () => {
 
   const servicoBiblia = new ServicoBiblia();
   const servicoDados = new Sheet();
-
+  const [heigth, setWindowHeigth] = useState(0);
   const [width, setWindowWidth] = useState(0);
   const [videoTop, setVideoTop] = useState(0);
 
@@ -44,13 +44,14 @@ const Books = () => {
     let video = document.getElementById("video");
     const videoTop = video.offsetTop;
     const width = window.innerWidth;
-    const vh = window.innerHeigth *0.2;
+    const heigth = window.innerHeigth ;
+    setWindowHeigth(heigth);
     setWindowWidth(width);
     setVideoTop(videoTop);
     if (width < 992) {
       video.classList.add("bottom-fixed");
       video.classList.remove("sticky");
-    } else if (window.pageYOffset > videoTop + vh || width >= 992) {
+    } else if (window.pageYOffset > videoTop + heigth *0.2 || width >= 992) {
       video.classList.remove("bottom-fixed");
       video.classList.add("sticky");
     }
@@ -258,6 +259,8 @@ const Books = () => {
             <div id="video">
               {versosVideo && (
                 <ReactPlayer
+                width={width > 992 ? width * 0.4 : width *0.8}
+                heigth={heigth * 0.5}
                   url={"https://www.youtube.com/watch?v=" + versosVideo}
                   controls={true}
                 />
