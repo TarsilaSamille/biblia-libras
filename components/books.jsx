@@ -260,7 +260,6 @@ const Books = () => {
               {versosVideo && (
                 <ReactPlayer
                 width={width > 992 ? width * 0.4 : width *0.8}
-                heigth={heigth * 0.5}
                   url={"https://www.youtube.com/watch?v=" + versosVideo}
                   controls={true}
                 />
