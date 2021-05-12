@@ -47,10 +47,10 @@ const Books = () => {
     const vh = window.innerHeigth *0.2;
     setWindowWidth(width);
     setVideoTop(videoTop);
-    if (width < 993) {
+    if (width < 992) {
       video.classList.add("bottom-fixed");
       video.classList.remove("sticky");
-    } else if (window.pageYOffset > videoTop + vh || width >= 993) {
+    } else if (window.pageYOffset > videoTop + vh || width >= 992) {
       video.classList.remove("bottom-fixed");
       video.classList.add("sticky");
     }
