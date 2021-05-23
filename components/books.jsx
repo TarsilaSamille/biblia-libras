@@ -4,7 +4,12 @@ import Sheet from "../api/Sheet";
 import bibleStyles from "../styles/biblia.module.css";
 import VLibras from "@djpfs/react-vlibras-typescript";
 import ReactPlayer from "react-player";
-import { Select, Form, Layout, Row, Col, Switch } from "antd";
+import { Select, Form, Layout, Row, Col, Switch, Typography, Modal } from "antd";
+import { Popover, Button } from "antd";
+
+const { Header, Sider, Content } = Layout;
+const { Text } = Typography;
+
 const { Option } = Select;
 const Books = () => {
   const [books, setBooks] = useState([]);
@@ -24,17 +29,29 @@ const Books = () => {
     name: "",
     testament: "",
   });
-
+  const [words, setWords] = useState([]);
+  const [palavra, setPalavra] = useState();
   const servicoBiblia = new ServicoBiblia();
   const servicoDados = new Sheet();
   const [heigth, setWindowHeigth] = useState(0);
   const [width, setWindowWidth] = useState(0);
   const [videoTop, setVideoTop] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = (palavra) => {
+    setPalavra(palavra);
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   useEffect(() => {
-    window.onscroll = function () {
-      changePositionVideo();
-    };
     updateDimensions();
     window.addEventListener("resize", updateDimensions);
     return () => window.removeEventListener("resize", updateDimensions);
@@ -44,14 +61,14 @@ const Books = () => {
     let video = document.getElementById("video");
     const videoTop = video.offsetTop;
     const width = window.innerWidth;
-    const heigth = window.innerHeigth ;
+    const heigth = window.innerHeigth;
     setWindowHeigth(heigth);
     setWindowWidth(width);
     setVideoTop(videoTop);
     if (width < 992) {
       video.classList.add("bottom-fixed");
       video.classList.remove("sticky");
-    } else if (window.pageYOffset > videoTop + heigth *0.2 || width >= 992) {
+    } else if (window.pageYOffset > videoTop + heigth * 0.2 || width >= 992) {
       video.classList.remove("bottom-fixed");
       video.classList.add("sticky");
     }
@@ -61,7 +78,8 @@ const Books = () => {
     (async () => {
       setBooks((await servicoBiblia.getBooks()) || []);
       setVersions((await servicoBiblia.getVersions()) || []);
-      setDados((await servicoDados.getDados()) || []);
+      setDados((await servicoDados.getVideosId()) || []);
+      setWords((await servicoDados.getGlossario()) || []);
     })();
   }, []);
 
@@ -79,8 +97,6 @@ const Books = () => {
         );
     })();
   }, [version, book, chapter]);
-
-  const changePositionVideo = () => {};
 
   const onChangeBook = (value) => {
     console.log(books);
@@ -233,8 +249,24 @@ const Books = () => {
                     .map((v) => (
                       <p key={v.number}>
                         <b> {v.number} </b>{" "}
-                        {v.text.split(" ").map((w) => (
-                          <span> {w} </span>
+                        {v.text.split(" ").map((w, i) => (
+                          <>
+                            {words.some(
+                              (obj) =>
+                                obj.palavra.toLowerCase() === w.toLowerCase()
+                            ) ? (
+                              <span key={i + w}>
+                                <Text underline onClick={() => showModal(words.filter((obj) =>
+                                obj.palavra.toLowerCase() === w.toLowerCase())[0])}>
+                                  <Popover title="Clique para saber sobre o sinal">
+                                    {w}</Popover>
+                                    
+                                </Text>&nbsp;
+                               </span>
+                            ) : (
+                              <span key={i + w}>{w} </span>
+                            )}
+                          </>
                         ))}
                       </p>
                     ))
@@ -242,8 +274,8 @@ const Books = () => {
                   chapterText.verses.map((v) => (
                     <p key={v.number}>
                       <b> {v.number} </b>{" "}
-                      {v.text.split(" ").map((w) => (
-                        <span> {w} </span>
+                      {v.text.split(" ").map((w, i) => (
+                        <span key={i + w}> {w} </span>
                       ))}
                     </p>
                   ))}
@@ -256,10 +288,16 @@ const Books = () => {
             lg={{ span: 12, order: 2 }}
             xl={{ span: 12, order: 2 }}
           >
-            <div id="video">
+            <div
+              id="video"
+              style={{
+                zIndex: 1,
+              }}
+            >
               {versosVideo && (
                 <ReactPlayer
-                width={width > 992 ? width * 0.4 : width *0.8}
+                  height={width > 992 ? "45vh" : "35vh"}
+                  width={width > 992 ? width * 0.4 : width * 0.8}
                   url={"https://www.youtube.com/watch?v=" + versosVideo}
                   controls={true}
                 />
@@ -267,7 +305,26 @@ const Books = () => {
             </div>
           </Col>
         </Row>
-
+        <div id="video">
+        <Modal
+          title="Sinal"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          width={(width > 992 ? width * 0.4 : width * 0.8) + 40}
+        >
+          {palavra && (
+            <>
+            <ReactPlayer
+              width={width > 992 ? width * 0.4 : width * 0.8}
+              url={"https://www.youtube.com/watch?v=" + palavra.videoId}
+              controls={true}
+            />
+            <p>{palavra.descricao.replaceAll("\\", "\"")}</p>
+            </>
+          )}
+        </Modal>
+      </div>
         <VLibras />
       </div>
     </>

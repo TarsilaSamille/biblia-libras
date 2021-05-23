@@ -12,7 +12,7 @@ export default function Home() {
       <section className={utilStyles.headingMd}>
         <div className={"container background-image-container text-center"}>
           {" "}
-          <h1>EM BREVE</h1>
+          <Glossario/>
         </div>
       </section>
     </Layout>

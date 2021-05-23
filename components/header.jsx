@@ -23,30 +23,30 @@ export default function Header() {
               <span className="icon-bar" />
               <span className="icon-bar" />
             </button>
-            <a className="navbar-brand" href="/" title>
-              <img src={logo} className="navbar-logo-img" alt />
+            <a className="navbar-brand" href="/" >
+              <img src={logo} className="navbar-logo-img" alt="logo" />
             </a>
           </div>
           <div className="collapse navbar-collapse" id="navbar-collapse-uarr">
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a href="home" title className="active">
+                <a href="home" title="home" className="active">
                   Home
                 </a>
               </li>
               <li>
-                <a href="about" title>
+                <a href="about" title="about">
                   Sobre
                 </a>
               </li>
               <li>
-                <a href="glossario" title>
+                <a href="glossario" title="glossario">
                   Glossario
                 </a>
               </li>
               <li>
                 <p>
-                  <a href="\" className="btn btn-primary navbar-btn" title>
+                  <a href="\" className="btn btn-primary navbar-btn" title="Biblia">
                     Biblia
                   </a>
                 </p>

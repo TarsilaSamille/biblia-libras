@@ -15,13 +15,13 @@ export default function Footer() {
             <div className="col-md-4">
               <h4>Gostou da iniciativa? Compartilhe para que mais pessoas conheçam!</h4>
               <p>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https://biblia-libras.vercel.app/" className="social-round-icon white-round-icon fa-icon" title>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://biblia-libras.vercel.app/" className="social-round-icon white-round-icon fa-icon" >
                   <i className="fa fa-facebook" aria-hidden="true" />
                 </a>
-                <a href="https://twitter.com/intent/tweet?url=https://biblia-libras.vercel.app/&text=Web%20App%20B%C3%ADblia%20em%20LIBRAS" className="social-round-icon white-round-icon fa-icon" title>
+                <a href="https://twitter.com/intent/tweet?url=https://biblia-libras.vercel.app/&text=Web%20App%20B%C3%ADblia%20em%20LIBRAS" className="social-round-icon white-round-icon fa-icon" >
                   <i className="fa fa-twitter" aria-hidden="true" />
                 </a>
-                <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://biblia-libras.vercel.app/" className="social-round-icon white-round-icon fa-icon" title>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://biblia-libras.vercel.app/" className="social-round-icon white-round-icon fa-icon" >
                   <i className="fa fa-linkedin" aria-hidden="true" />
                 </a>
               </p>
