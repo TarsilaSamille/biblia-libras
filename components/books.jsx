@@ -29,7 +29,7 @@ const Books = () => {
   const [videos2Dados, setVideos2Dados] = useState([]);
   const [versosVideo, setVersosVideo] = useState("Jwy8dcEmDWY");
   const [versoIF, setVersoIF] = useState([1, 17]);
-  const [onlyLibras, setOnlyLibras] = useState(true);
+  const [onlyLibras, setOnlyLibras] = useState(false);
   const [chapterText, setChapterText] = useState();
   const [book, setBook] = useState({
     abbrev: { pt: "mt" },
@@ -105,7 +105,6 @@ const Books = () => {
     setChapter(1);
   }, []);
 
-
   useEffect(() => {
     (async () => {
       version &&
@@ -162,10 +161,7 @@ const Books = () => {
 
   const getOptionVersion = (obj, label, value) => {
     return (
-      <Option
-        key={obj[value]}
-        value={obj[value]}
-      >
+      <Option key={obj[value]} value={obj[value]}>
         {obj[label]}
       </Option>
     );
@@ -204,7 +200,9 @@ const Books = () => {
                     onChange={onChangeVersion}
                   >
                     {versions &&
-                      versions.map((v) => getOptionVersion(v, "version", "version"))}
+                      versions.map((v) =>
+                        getOptionVersion(v, "version", "version")
+                      )}
                   </Select>
                 )}
               </Form.Item>
@@ -214,6 +212,7 @@ const Books = () => {
                 <Select
                   placeholder="Mateus"
                   onChange={onChangeBook}
+                  onOpen={() => {}}
                   showSearch
                   style={{ width: 200 }}
                   optionFilterProp="children"
@@ -225,10 +224,10 @@ const Books = () => {
                 >
                   {books &&
                     (onlyLibras
-                      ? books
+                      ? books.map((v) => getBooksOption(v))
+                      : books
                           .filter((b) => b.testament == "NT")
-                          .map((v) => getBooksOption(v))
-                      : books.map((v) => getBooksOption(v)))}
+                          .map((v) => getBooksOption(v)))}
                 </Select>
               </Form.Item>
             </Col>
@@ -254,6 +253,10 @@ const Books = () => {
                   placeholder="1:1-17"
                   onChange={onChangeVerses}
                 >
+                   {book &&
+                    videos2Dados.filter(
+                      (v) => v.book == book.abbrev.pt && v.chapter == chapter
+                    ).length > 0 &&
                   <OptGroup label="Libras Comunicar">
                     {book &&
                       videosDados
@@ -263,6 +266,7 @@ const Books = () => {
                         )
                         .map((v) => getOption(v, "text", "videoId", true))}
                   </OptGroup>
+}
                   {book &&
                     videos2Dados.filter(
                       (v) => v.book == book.abbrev.pt && v.chapter == chapter
