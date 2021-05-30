@@ -42,8 +42,7 @@ export default function Home() {
                   <a href="https://www.youtube.com/user/adoniranmelo">
                     Adoniran Melo
                   </a>{" "}
-                  pastor da Primeira Igreja Batista de Curitiba (PIB) e em breve
-                  será adicionada a{" "}
+                  pastor da Primeira Igreja Batista de Curitiba (PIB) e a{" "}
                   <a href="https://www.youtube.com/channel/UCmqg8Qxi1zdWlBwB7zHl-DQ">
                     Bíblia DOT
                   </a>
@@ -163,8 +162,7 @@ export default function Home() {
                 <li>
                   <h3>Glossário</h3>
                   <p>
-                    Acionando a extenção do VLibras é possivel ver a tradução palavra por palavra. 
-                  
+                    Foi adicionado o Glossario do Projeto DOT e acionando a extenção do VLibras é possivel ver a tradução palavra por palavra. 
                   </p>
                 </li>
               </ul>

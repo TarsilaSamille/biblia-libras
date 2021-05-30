@@ -29,8 +29,7 @@ export default function AboutDiv() {
                 <a href="https://www.youtube.com/user/adoniranmelo">
                   Adoniran Melo
                 </a>{" "}
-                pastor da Primeira Igreja Batista de Curitiba (PIB) e em breve
-                será adicionada a{" "}
+                pastor da Primeira Igreja Batista de Curitiba (PIB) e a{" "}
                 <a href="https://www.youtube.com/channel/UCmqg8Qxi1zdWlBwB7zHl-DQ">
                   Bíblia DOT
                 </a>
