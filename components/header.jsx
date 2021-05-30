@@ -44,6 +44,11 @@ export default function Header() {
                   Glossario
                 </a>
               </li>
+              {/* <li>
+                <a href="glossario-geral" title="glossario-geral">
+                  Glossario Geral
+                </a>
+              </li> */}
               <li>
                 <p>
                   <a href="\" className="btn btn-primary navbar-btn" title="Biblia">

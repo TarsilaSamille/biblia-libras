@@ -68,7 +68,7 @@ const Books = () => {
   return (
     <div>
       <div className="text-center">
-        <h1>Glossario </h1>
+        <h1>Glossario Bíblico</h1>
       </div>
       <Search placeholder="palavra" onChange={onChange} style={{ width: 200 }} />
       <div className={bibleStyles.selectors}></div>

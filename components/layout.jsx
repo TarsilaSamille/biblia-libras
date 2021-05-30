@@ -30,7 +30,7 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
         
 
-        <meta charset="UTF-8"/>
+        <meta charSet="UTF-8"/>
         <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
         <meta content="width=device-width,initial-scale=1" name="viewport"/>
         <meta content="description" name="description"/>

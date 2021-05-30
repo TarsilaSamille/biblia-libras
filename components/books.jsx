@@ -4,19 +4,29 @@ import Sheet from "../api/Sheet";
 import bibleStyles from "../styles/biblia.module.css";
 import VLibras from "@djpfs/react-vlibras-typescript";
 import ReactPlayer from "react-player";
-import { Select, Form, Layout, Row, Col, Switch, Typography, Modal } from "antd";
+import {
+  Select,
+  Form,
+  Layout,
+  Row,
+  Col,
+  Switch,
+  Typography,
+  Modal,
+} from "antd";
 import { Popover, Button } from "antd";
 
 const { Header, Sider, Content } = Layout;
 const { Text } = Typography;
 
-const { Option } = Select;
+const { Option, OptGroup } = Select;
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [versions, setVersions] = useState([]);
   const [chapter, setChapter] = useState(1);
   const [version, setVersion] = useState("nvi");
-  const [dados, setDados] = useState([]);
+  const [videosDados, setVideosDados] = useState([]);
+  const [videos2Dados, setVideos2Dados] = useState([]);
   const [versosVideo, setVersosVideo] = useState("Jwy8dcEmDWY");
   const [versoIF, setVersoIF] = useState([1, 17]);
   const [onlyLibras, setOnlyLibras] = useState(true);
@@ -78,10 +88,23 @@ const Books = () => {
     (async () => {
       setBooks((await servicoBiblia.getBooks()) || []);
       setVersions((await servicoBiblia.getVersions()) || []);
-      setDados((await servicoDados.getVideosId()) || []);
+      setVideosDados((await servicoDados.getVideosId()) || []);
+      setVideos2Dados((await servicoDados.getVideos2Id()) || []);
       setWords((await servicoDados.getGlossario()) || []);
     })();
+    setBook(
+      books[0] || {
+        abbrev: { pt: "mt" },
+        author: "",
+        chapters: 24,
+        group: "",
+        name: "",
+        testament: "",
+      }
+    );
+    setChapter(1);
   }, []);
+
 
   useEffect(() => {
     (async () => {
@@ -110,23 +133,43 @@ const Books = () => {
   };
   const onChangeVerses = (value) => {
     setVersosVideo(value);
-    let verses = dados.filter(
-      (v) => v.book == book.abbrev.pt && v.videoId == value
-    )[0];
+    let verses =
+      videosDados.filter((v) => v.book == book.abbrev.pt && v.videoId == value)
+        .length > 0
+        ? videosDados.filter(
+            (v) => v.book == book.abbrev.pt && v.videoId == value
+          )[0]
+        : videos2Dados.filter(
+            (v) => v.book == book.abbrev.pt && v.videoId == value
+          )[0];
     setVersoIF([verses.verse_i, verses.verses_f]);
   };
   const onChangeSwitch = (value) => {
     setOnlyLibras(!value);
   };
 
-  const getOption = (obj, label, value) => {
+  const getOption = (obj, label, value, color) => {
     return (
-      <Option key={obj[value]} value={obj[value]}>
+      <Option
+        key={obj[value]}
+        value={obj[value]}
+        style={{ color: color ? "#348AC8" : "#D78601" }}
+      >
         {obj[label]}
       </Option>
     );
   };
 
+  const getOptionVersion = (obj, label, value) => {
+    return (
+      <Option
+        key={obj[value]}
+        value={obj[value]}
+      >
+        {obj[label]}
+      </Option>
+    );
+  };
   const getOptionNum = (obj) => {
     return (
       <Option key={obj} value={obj}>
@@ -161,7 +204,7 @@ const Books = () => {
                     onChange={onChangeVersion}
                   >
                     {versions &&
-                      versions.map((v) => getOption(v, "version", "version"))}
+                      versions.map((v) => getOptionVersion(v, "version", "version"))}
                   </Select>
                 )}
               </Form.Item>
@@ -211,12 +254,29 @@ const Books = () => {
                   placeholder="1:1-17"
                   onChange={onChangeVerses}
                 >
+                  <OptGroup label="Libras Comunicar">
+                    {book &&
+                      videosDados
+                        .filter(
+                          (v) =>
+                            v.book == book.abbrev.pt && v.chapter == chapter
+                        )
+                        .map((v) => getOption(v, "text", "videoId", true))}
+                  </OptGroup>
                   {book &&
-                    dados
-                      .filter(
-                        (v) => v.book == book.abbrev.pt && v.chapter == chapter
-                      )
-                      .map((v) => getOption(v, "text", "videoId"))}
+                    videos2Dados.filter(
+                      (v) => v.book == book.abbrev.pt && v.chapter == chapter
+                    ).length > 0 && (
+                      <OptGroup label="Biblia DOT">
+                        {book &&
+                          videos2Dados
+                            .filter(
+                              (v) =>
+                                v.book == book.abbrev.pt && v.chapter == chapter
+                            )
+                            .map((v) => getOption(v, "text", "videoId"))}
+                      </OptGroup>
+                    )}
                 </Select>
               </Form.Item>
             </Col>
@@ -256,13 +316,24 @@ const Books = () => {
                                 obj.palavra.toLowerCase() === w.toLowerCase()
                             ) ? (
                               <span key={i + w}>
-                                <Text underline onClick={() => showModal(words.filter((obj) =>
-                                obj.palavra.toLowerCase() === w.toLowerCase())[0])}>
+                                <Text
+                                  underline
+                                  onClick={() =>
+                                    showModal(
+                                      words.filter(
+                                        (obj) =>
+                                          obj.palavra.toLowerCase() ===
+                                          w.toLowerCase()
+                                      )[0]
+                                    )
+                                  }
+                                >
                                   <Popover title="Clique para saber sobre o sinal">
-                                    {w}</Popover>
-                                    
-                                </Text>&nbsp;
-                               </span>
+                                    {w}
+                                  </Popover>
+                                </Text>
+                                &nbsp;
+                              </span>
                             ) : (
                               <span key={i + w}>{w} </span>
                             )}
@@ -306,25 +377,25 @@ const Books = () => {
           </Col>
         </Row>
         <div id="video">
-        <Modal
-          title="Sinal"
-          visible={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          width={(width > 992 ? width * 0.4 : width * 0.8) + 40}
-        >
-          {palavra && (
-            <>
-            <ReactPlayer
-              width={width > 992 ? width * 0.4 : width * 0.8}
-              url={"https://www.youtube.com/watch?v=" + palavra.videoId}
-              controls={true}
-            />
-            <p>{palavra.descricao.replaceAll("\\", "\"")}</p>
-            </>
-          )}
-        </Modal>
-      </div>
+          <Modal
+            title="Sinal"
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            width={(width > 992 ? width * 0.4 : width * 0.8) + 40}
+          >
+            {palavra && (
+              <>
+                <ReactPlayer
+                  width={width > 992 ? width * 0.4 : width * 0.8}
+                  url={"https://www.youtube.com/watch?v=" + palavra.videoId}
+                  controls={true}
+                />
+                <p>{palavra.descricao.replaceAll("\\", '"')}</p>
+              </>
+            )}
+          </Modal>
+        </div>
         <VLibras />
       </div>
     </>
